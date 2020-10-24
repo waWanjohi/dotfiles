@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =1
+let g:netrw_dirhist_1='/home/gem/Documents/django-todos/backend'
+let g:netrw_dirhist_0='/home/gem/Documents/django-todos'
+let g:netrw_dirhist_9='/home/gem/Documents/django-todos/frontend/src/components/Modal'
+let g:netrw_dirhist_8='/home/gem/Documents/django-todos/frontend/src/components'
+let g:netrw_dirhist_7='/home/gem/Documents/django-todos/frontend/src'
+let g:netrw_dirhist_6='/home/gem/Documents/django-todos/frontend'
+let g:netrw_dirhist_5='/home/gem/Documents/django-todos'
+let g:netrw_dirhist_4='/home/gem/Documents/django-todos/frontend/src/components'
+let g:netrw_dirhist_3='/home/gem/Documents/django-todos/frontend/src'
+let g:netrw_dirhist_2='/home/gem/Documents/django-todos/frontend'
