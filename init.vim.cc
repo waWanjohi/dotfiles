@@ -1,16 +1,24 @@
+
+
+"""""""""""""""""""""""""""""""""""""    THE AIRLINE """"""""""""""""""""
+
+
+" Airline theme
+let g:airline_theme = 'sonokai'
+"let g:airline_solarized_bg='dark'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'default'
+" let g:airline_solarized_bg='dark'
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'scrooloose/nerdtree'
-"Plug 'tsony-tsonev/nerdtree-git-plugin'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'ryanoasis/vim-devicons'
-Plug 'airblade/vim-gitgutter'
 Plug 'ctrlpvim/ctrlp.vim' " fuzzy find files
-Plug 'scrooloose/nerdcommenter'
-"Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+" Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 Plug 'christoomey/vim-tmux-navigator'
 
@@ -18,17 +26,88 @@ Plug 'morhetz/gruvbox'
 
 Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 
+" Airline theme
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" NERDTree Setup
+Plug 'scrooloose/nerdtree'
+"Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'ryanoasis/vim-devicons'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'adelarsq/vim-devicons-emoji'
+Plug 'scrooloose/nerdcommenter'
+Plug 'airblade/vim-gitgutter'
+
+
+" JSX Support
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+
+" Code commenting gcc [LINE] gc [ SELECTION ]
+Plug 'tpope/vim-commentary'
+
+" Colorscheme
+Plug 'sainnhe/sonokai' 
+Plug 'flazz/vim-colorschemes'
+
+
+" Fuzzy Finder
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+
 " Initialize plugin system
 call plug#end()
 
+
+
+
+
+""""""""""""""""""""""""""""""""""""""  FUZZY FINDER SETTINGS """""""""""""""""""""""""""""""""""""""""""
+
+
+" This is the default option:
+"   - Preview window on the right with 50% width
+"   - CTRL-/ will toggle preview window.
+" - Note that this array is passed as arguments to fzf#vim#with_preview function.
+" " - To learn more about preview window options, see `--preview-window` section of `man fzf`.
+" let g:fzf_preview_window = ['right:50%', 'ctrl-/']
+
+" " Preview window on the upper side of the window with 40% height,
+" " hidden by default, ctrl-/ to toggle
+" let g:fzf_preview_window = ['up:40%:hidden', 'ctrl-/']
+
+" " Empty value to disable preview window altogether
+" let g:fzf_preview_window = []
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+
+
+
+"""""""""""""""""""""""""""""""""  SHORTCUTS   """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Keybinds
 inoremap jk <ESC>
 nmap <C-n> :NERDTreeToggle<CR>
-vmap ++ <plug>NERDCommenterToggle
-nmap ++ <plug>NERDCommenterToggle
+nnoremap <C-s> :w<CR>
+nnoremap <C-q> :wq<CR>
+nnoremap <C-x> :q<CR>
+" vmap <C-/> <plug>NerdCommenterToggle
+" nmap <C-x> <plug>NerdCommenterToggle<CR>
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""    NERDTREE   """"""""""""""""""""""""""""""""""""""""""""""""""""
 " open NERDTree automatically
-"autocmd StdinReadPre * let s:std_in=1
-"autocmd VimEnter * NERDTree
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * NERDTree
 
 let g:NERDTreeGitStatusWithFlags = 1
 "let g:WebDevIconsUnicodeDecorateFolderNodes = 1
@@ -53,35 +132,46 @@ let g:NERDTreeIgnore = ['^node_modules$']
 " prettier command for coc
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 " run prettier on save
-"let g:prettier#autoformat = 0
-"autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+let g:prettier#autoformat = 0
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 
 
-" ctrlp
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
-" j/k will move virtual lines (lines that wrap)
-noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
-noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 
-set relativenumber
+" Configurac NERDtree
+let g:NERDTreeShowHidden = 1
+let g:NERDTreeMinimalUI = 1
+let g:NERDTreeIgnore = []
+let g:NERDTreeStatusline = ''
+" Automaticaly close nvim if NERDTree is only thing left open
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" Toggle
+nnoremap <silent> <C-b> :NERDTreeToggle<CR>
+" sync open file with NERDTree
+" " Check if NERDTree is open or active
+"function! IsNERDTreeOpen()
+"  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+"endfunction
 
-set smarttab
-set cindent
-set tabstop=2
-set shiftwidth=2
-" always uses spaces instead of tab characters
-set expandtab
+" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
+" file, and we're not in vimdiff
+"function! SyncTree()
+  "if &modifiable && strlen(expand('%')) > 0 && !&diff && IsNERDTreeOpen()
+   " NERDTreeFind
+  "  wincmd p
+ " endif
+"endfunction
+" Highlight currently open buffer in NERDTree autocmd BufEnter * call SyncTree() autocmd BufEnter * call SyncTree() 
 
-colorscheme gruvbox
 
+set hidden
 " sync open file with NERDTree
 " " Check if NERDTree is open or active
 function! IsNERDTreeOpen()        
   return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
 endfunction
 
-" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
+" Call NERDTreeFind if NERDTree is active, current window contains a modifiable
 " file, and we're not in vimdiff
 function! SyncTree()
   if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
@@ -90,9 +180,63 @@ function! SyncTree()
   endif
 endfunction
 
-" Highlight currently open buffer in NERDTree
-autocmd BufEnter * call SyncTree()
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""  CTRL-P         """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""" "
+" let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard'] 
+" j/k will move virtual lines (lines that wrap) 
+" noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j') noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+
+
+"""""""""""""""""""""""""""""""""""""""     GENERAL SETTINGS        """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+
+
+set relativenumber
+set number
+set smarttab
+set cindent
+set tabstop=2
+set shiftwidth=2
+" always uses spaces instead of tab characters
+set expandtab
+set cursorline
+set mouse=a
+colorscheme sonokai
+" colorscheme gruvbox
+
+" sync open file with NERDTree
+" Check if NERDTree is open or active
+" function! IsNERDTreeOpen()        
+" return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+" endfunction
+
+" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
+" file, and we're not in vimdiff
+" function! SyncTree()
+" if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
+"     NERDTreeFind
+
+ ""  wincmd p
+  "endif
+ "endfunction
+
+" Highlight currently open buffer in NERDTree
+"autocmd BufEnter * call SyncTree()
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""""""    COC     """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " coc config
 let g:coc_global_extensions = [
   \ 'coc-snippets',
@@ -100,7 +244,11 @@ let g:coc_global_extensions = [
   \ 'coc-tsserver',
   \ 'coc-eslint', 
   \ 'coc-prettier', 
-  \ 'coc-json', 
+  \ 'coc-json',
+  \ 'coc-eslint',
+  \ 'coc-styled-components',
+  \ 'coc-react-refactor',
+  \ 'coc-html',
   \ ]
 " from readme
 " if hidden is not set, TextEdit might fail.
@@ -222,3 +370,6 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

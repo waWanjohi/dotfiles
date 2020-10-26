@@ -1,9 +1,19 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""  MY SETTINGS """""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""
+set emoji
+set foldenable
+" set guifont=Fira_Code_retina
 
+" Search with no case sensitivity <shift-/>
+set ignorecase
+set smartcase
+
+" Line numbers
 set number 
 set relativenumber
+
+" Mouse click
 set mouse=a 
 
 " Set to auto read when a file is changed from the outside
@@ -14,7 +24,6 @@ au FocusGained,BufEnter * checktime
 "Always show current position
 set ruler
 
-
 " Ignore case when searching
 set ignorecase
 
@@ -23,17 +32,22 @@ set hlsearch
 
 " Keybinds
 inoremap jk <ESC>
-nmap <C-n> :NERDTreeToggle<CR>
+" nmap <C-n> :NERDTreeToggle<CR>
 " vmap <C-/> <plug>NerdCommenterToggle
 " nmap <C-x> <plug>NerdCommenterToggle<CR>
-
+inoremap jk <ESC>
+nmap <C-n> :NERDTreeToggle<CR>
+nmap <C-w> :w<CR>
+nnoremap <C-q> :wq<CR>
+nnoremap <C-x> :q<CR>
+nnoremap _ :b <space>
 
 " Find using CTRL-F 
 " nmap <C-f> command/<CR>
 
 
 " Airline settings 
-let g:airline_theme = 'onedark'
+let g:airline_theme = 'sonokai'
 "let g:airline_solarized_bg='dark'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'default'
@@ -111,6 +125,10 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'sheerun/vim-polyglot'
 Plug 'HerringtonDarkholme/yats.vim'
 
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+
+
 " NERDTree Setup
 Plug 'ryanoasis/vim-devicons'
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -118,12 +136,28 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'adelarsq/vim-devicons-emoji'
 Plug 'scrooloose/nerdcommenter'
 
+" Code commenting gcc [LINE] gc [ SELECTION ]
+Plug 'tpope/vim-commentary'
+
+
+" REACT SNIPPETS
+" React code snippets
+Plug 'epilande/vim-react-snippets'
+
+" Ultisnips
+Plug 'SirVer/ultisnips'
+
+" Trigger configuration (Optional)
+let g:UltiSnipsExpandTrigger="<tab>"
+
+
 " Initialize plugin system
 call plug#end()
 
 
 " Set Colorscheme
-colorscheme sonokai 
+"colorscheme sonokai 
+colorscheme onedark
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -298,14 +332,42 @@ nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 " My coc config
 let g:coc_global_extensions = [
 	\ 'coc-snippets',
-	\ 'coc-pairs',
-	\ 'coc-tsserver',
+  \ 'coc-pairs',
 	\ 'coc-eslint',
 	\ 'coc-prettier',
 	\ 'coc-json',
 	\ 'coc-python',
+  \ 'coc-eslint',
+  \ 'coc-styled-components',
+  \ 'coc-react-refactor',
+  \ 'coc-html',
+  \ 'coc-tsserver',
   \ ]
 
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+
+" Optional typescript settings
 " Required
 set hidden 
 
